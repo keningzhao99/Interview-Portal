@@ -1,4 +1,4 @@
-import VideoRecorder from "./VideoRecorder";
+import VideoRecorder from "../components/VideoRecorder";
 
 
 export const SelfRecording = () => {
