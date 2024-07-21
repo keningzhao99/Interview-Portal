@@ -1,16 +1,17 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+// src/App.jsx
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import './App.css';
+import './styles/Navbar.css';
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App = () => {
   return (
-    <>
-      <h1> Launch Interview Portal </h1>
-    </>
+    <div className="App">
+      <Navbar />
+      <Outlet /> {/* This will render child routes */}
+    </div>
   );
-}
+};
 
 export default App;
