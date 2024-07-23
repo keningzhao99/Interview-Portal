@@ -10,10 +10,6 @@ import { UserProfile } from './routes/UserProfile.jsx';
 import { SelfRecording } from './routes/SelfRecording.jsx';
 import { EducationalResources } from "./routes/EduactionalResources.jsx";
 import { LessonDetail } from './routes/LessonDetail.jsx';
-import Login from "./routes/Login.jsx";
-import  Home  from "./routes/Home.jsx";
-import UserProfile  from "./routes/UserProfile.jsx";
-import SelfRecording from "./routes/SelfRecording.jsx";
 
 const router = createBrowserRouter([
   {
