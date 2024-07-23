@@ -33,7 +33,12 @@ const router = createBrowserRouter([
     element: <SelfRecording />,
   },
   {
-    /* Add more if necessary for Forum page*/
+    path: "/educational-resources",
+    element: <EducationalResources />,
+  },
+  {
+    path: '/educational-resources/:lessonId',
+    element: <LessonDetail />,
   },
 ]);
 
