@@ -10,31 +10,30 @@ import { UserProfile } from './routes/UserProfile.jsx';
 import { SelfRecording } from './routes/SelfRecording.jsx';
 import { EducationalResources } from "./routes/EduactionalResources.jsx";
 import { LessonDetail } from './routes/LessonDetail.jsx';
+import Login from "./routes/Login.jsx";
+import  Home  from "./routes/Home.jsx";
+import UserProfile  from "./routes/UserProfile.jsx";
+import SelfRecording from "./routes/SelfRecording.jsx";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Login />,
   },
   {
-    path: '/home',
+    path: "/home",
     element: <Home />,
   },
   {
-    path: '/profile',
+    path: "/profile",
     element: <UserProfile />,
   },
   {
-    path: '/self-recording',
+    path: "/self-recording",
     element: <SelfRecording />,
   },
   {
-    path: '/educational-resources',
-    element: <EducationalResources />,
-  },
-  {
-    path: '/educational-resources/:lessonId',
-    element: <LessonDetail />,
+    /* Add more if necessary for Forum page*/
   },
 ]);
 
