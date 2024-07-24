@@ -11,8 +11,6 @@ import {
   Select,
   Textarea,
   Button,
-  VStack,
-  HStack,
   SimpleGrid,
   Stack,
   Card,
@@ -33,8 +31,10 @@ export const UserProfile = () => {
   };
 
   return (
-    <Box>
-      <Heading mb={6}>User Profile</Heading>
+    <Box className="profile-container">
+      <Heading className="profile-heading" mb={6}>
+        User Profile
+      </Heading>
 
       <Card className="profile-header">
         <CardBody>
@@ -59,7 +59,7 @@ export const UserProfile = () => {
         <CardBody>
           <Flex>
             <Box flex="1" mr={10}>
-              <Heading size="md" mb={4}>
+              <Heading className="profile-heading" size="md" mb={4}>
                 General
               </Heading>
               <Text mb={4}>
@@ -74,6 +74,7 @@ export const UserProfile = () => {
                 <FormControl>
                   <FormLabel>Full Name</FormLabel>
                   <Input
+                    className="form-input"
                     type="text"
                     placeholder="Enter your full name"
                     isReadOnly={!isEditing}
@@ -82,6 +83,7 @@ export const UserProfile = () => {
                 <FormControl>
                   <FormLabel>Email</FormLabel>
                   <Input
+                    className="form-input"
                     type="email"
                     placeholder="Enter your email"
                     isReadOnly={!isEditing}
@@ -90,6 +92,7 @@ export const UserProfile = () => {
                 <FormControl>
                   <FormLabel>Pronouns</FormLabel>
                   <Select
+                    className="form-input"
                     placeholder="Select your pronouns"
                     isDisabled={!isEditing}
                   >
@@ -101,6 +104,7 @@ export const UserProfile = () => {
                 <FormControl>
                   <FormLabel>Track</FormLabel>
                   <Select
+                    className="form-input"
                     placeholder="Select your track"
                     isDisabled={!isEditing}
                   >
@@ -114,6 +118,7 @@ export const UserProfile = () => {
                 <FormControl>
                   <FormLabel>Phone Number</FormLabel>
                   <Input
+                    className="form-input"
                     type="tel"
                     placeholder="Enter your phone number"
                     isReadOnly={!isEditing}
@@ -121,6 +126,7 @@ export const UserProfile = () => {
                 </FormControl>
                 <Box>
                   <Button
+                    className="form-button"
                     mt={4}
                     onClick={isEditing ? handleUpdateClick : handleEditClick}
                   >
@@ -135,29 +141,30 @@ export const UserProfile = () => {
 
       <Card className="uploaded-videos-profile" mt={6}>
         <CardBody>
-          <Heading size="md" mb={4}>
+          <Heading className="profile-heading" size="md" mb={4}>
             Uploaded Videos
           </Heading>
-          <Text mb={4}>
-            Check to see the videos that you’ve uploaded in the past/all time to
-            see how much you’ve grown! Option to manage or delete videos if
-            needed.
-          </Text>
-          <SimpleGrid columns={3} spacing={4}>
-            {/* Placeholder for video thumbnails */}
-            <Box bg="gray.200" height="150px"></Box>
-            <Box bg="gray.200" height="150px"></Box>
-            <Box bg="gray.200" height="150px"></Box>
-          </SimpleGrid>
+          <Flex justify="space-between" align="start">
+            <Box flex="1" mr={4}>
+              <Text mb={4}>
+                Check to see the videos that you’ve uploaded in the past/all
+                time to see how much you’ve grown! Option to manage or delete
+                videos if needed.
+              </Text>
+              <SimpleGrid columns={3} spacing={4}>
+                {/* Placeholder for video thumbnails */}
+                <Box bg="gray.200" height="150px"></Box>
+                <Box bg="gray.200" height="150px"></Box>
+                <Box bg="gray.200" height="150px"></Box>
+              </SimpleGrid>
+            </Box>
+          </Flex>
         </CardBody>
       </Card>
 
-      {/* <Card className="progress-milestones" mt={6}>
-        
-      </Card> */}
       <Card className="help-support" mt={6}>
         <CardBody>
-          <Heading size="md" mb={4}>
+          <Heading className="profile-heading" size="md" mb={4}>
             Help/Support
           </Heading>
           <Flex justify="space-between" align="start">
@@ -173,11 +180,18 @@ export const UserProfile = () => {
                 <SimpleGrid columns={1} spacing={4}>
                   <FormControl>
                     <FormLabel>Full Name</FormLabel>
-                    <Input type="text" placeholder="Enter your full name" />
+                    <Input
+                      className="form-input"
+                      type="text"
+                      placeholder="Enter your full name"
+                    />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Question Type</FormLabel>
-                    <Select placeholder="Select your question type">
+                    <Select
+                      className="form-input"
+                      placeholder="Select your question type"
+                    >
                       <option value="interview-help">Interview Help</option>
                       <option value="concerns">Concerns</option>
                       <option value="general-question">General Question</option>
@@ -185,9 +199,14 @@ export const UserProfile = () => {
                   </FormControl>
                   <FormControl>
                     <FormLabel>Your Question or Concern</FormLabel>
-                    <Textarea placeholder="Enter your question or concern here" />
+                    <Textarea
+                      className="form-input"
+                      placeholder="Enter your question or concern here"
+                    />
                   </FormControl>
-                  <Button type="submit">Submit</Button>
+                  <Button className="form-button" type="submit">
+                    Submit
+                  </Button>
                 </SimpleGrid>
               </form>
             </Box>

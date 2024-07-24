@@ -1,0 +1,62 @@
+body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  background-color: #38146688;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px; /* Add some padding to the container */
+}
+
+.profile-header,
+.general-info,
+.uploaded-videos-profile,
+.help-support {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 15px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 6px -3px, rgba(0, 0, 0, 0.14) 0px 10px 14px 1px, rgba(0, 0, 0, 0.12) 0px 4px 18px 3px;
+}
+
+/* Styling for form inputs */
+.form-input {
+  padding: 10px;
+  margin-bottom: 2px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 70%;
+}
+
+.form-input:focus {
+  border-color: #3e134a;
+  box-shadow: 0 0 0 3px rgba(107, 49, 206, 0.6);
+}
+
+/* Styling for form buttons */
+.form-button {
+  background-color: #6531ce;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.form-button:hover {
+  background-color: #512489;
+}
+
+.form-button:focus {
+  box-shadow: 0 0 0 3px rgba(73, 39, 147, 0.6);
+}
