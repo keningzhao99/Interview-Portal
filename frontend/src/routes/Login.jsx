@@ -88,18 +88,23 @@ export const Login = () => {
             <Stack mt={4}>
               <Checkbox
                 className="remember-me"
-                colorScheme="red"
+                colorScheme="purple"
                 isChecked={rememberMe}
                 onChange={handleRememberMeChange}
               >
                 Remember Me
               </Checkbox>
 
-              <Button mt={4} type="submit" className="sign-in-button">
+              <Button
+                mt={4}
+                type="submit"
+                colorScheme="purple"
+                className="sign-in-button"
+              >
                 LOGIN
               </Button>
             </Stack>
-            <Box mt={4}>
+            <Box mt={1}>
               <Link href="#" className="toggle-link" onClick={toggleLoginType}>
                 {adminLogin ? "Student Login" : "Admin Login"}
               </Link>
@@ -121,3 +126,4 @@ export const Login = () => {
     </div>
   );
 };
+export default Login;

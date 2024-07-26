@@ -2,33 +2,54 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { Login } from "./routes/Login.jsx";
-import { Home } from "./routes/Home.jsx";
+import Login from "./routes/Login.jsx";
+import Home from "./routes/Home.jsx";
 import { UserProfile } from "./routes/UserProfile.jsx";
+import SelfRecording from "./routes/SelfRecording.jsx";
+import { EducationalResources } from "./routes/EduactionalResources.jsx";
+import { LessonDetail } from "./routes/LessonDetail.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,
-  },
-  {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/profile",
-    element: <UserProfile />,
-  },
-  {
-    /* Add more if necessary for Forum page*/
+    element: <App />,
+    children: [
+      {
+        path: "home",
+        element: <Home />,
+      },
+      {
+        path: "",
+        element: <Login />,
+      },
+      {
+        path: "self-recording",
+        element: <SelfRecording />,
+      },
+      {
+        path: "profile",
+        element: <UserProfile />,
+      },
+      {
+        path: "educational-resources",
+        element: <EducationalResources />,
+      },
+      {
+        path: "educational-resources/:lessonId",
+        element: <LessonDetail />,
+      },
+    ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <ChakraProvider>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </ChakraProvider>
 );
