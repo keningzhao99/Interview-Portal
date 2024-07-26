@@ -1,0 +1,110 @@
+.login-page {
+  font-family: 'Inter', sans-serif;
+  background-color: #38146688;
+  height: 100vh; 
+  margin: 0;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  }
+
+
+  .login-container {
+    padding: 30px 80px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #d8dee4;
+    border-radius: 4px; 
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 6px -3px, rgba(0, 0, 0, 0.14) 0px 10px 14px 1px, rgba(0, 0, 0, 0.12) 0px 4px 18px 3px;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    align-items: center; 
+    justify-content: center;  
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    margin-top: 36px;
+    width: 30em;
+    height: 42em; 
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .heading {
+    font-weight: 300;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+    text-align: center;
+  }
+  
+  .sign-in-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 40px;
+    background-color: #3f51b5; 
+    color: white;
+    width: 100%;
+    margin: 15px 0;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color:  rgb(56, 20, 102);
+
+  }
+  
+  .sign-in-button:hover {
+    background-color: rgb(35, 8, 70);
+  }
+  
+  .sign-in-button:active {
+    background-color: rgb(100, 56, 188);
+  }
+  
+  .footer-text {
+    color: gray;
+    margin-top: 18px;
+  }
+  
+  .form-helper-text {
+    text-align: center;
+  }
+  
+  .login-form{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+    justify-content: center; 
+    width: 25;
+  }
+
+  .login-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #381466;
+  }
+  
+  .login-input {
+    padding: 12px;
+    border: 1px solid #d8dee4;
+    border-radius: 4px;
+    font-size: 16px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+    transition: border-color 0.3s ease-in-out;
+    align-items: center;
+  }
+  
+  .login-input:focus {
+    border-color: #381466;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(56, 20, 102, 0.2);
+  }
+  
+  .login-input::placeholder {
+    color: #aaa;
+  }
