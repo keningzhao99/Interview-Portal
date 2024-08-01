@@ -16,7 +16,7 @@ router.post("/", upload.single('file'), async (req, res) => {
         }
 
         const file = req.file.buffer;
-        const fileName = `${uuidv4()}.mp4`;
+        const fileName = `${uuidv4()}.webm`;
         const vidRef = ref(storage, `files/${fileName}`);
 
         // Upload file
