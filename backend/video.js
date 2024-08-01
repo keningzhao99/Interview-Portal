@@ -34,18 +34,25 @@ router.post("/upload", upload.single('file'), async (req, res) => {
 router.get('/', async (req, res) => {
     try {
       // List all files in the 'files' directory
-      const [files] = await bucket.getFiles({ prefix: 'files/' });
+      const [files] = await storage.bucket.getFiles({ prefix: 'files/' });
       
-      // Filter to include only video files based on their extension or mime type
-      const videoFiles = files.filter(file => file.name.endsWith('.webm'));
+      // Array to store object URLs
+      const videoUrls = [];
   
-      // Create a list of video file names
-      const videoFileNames = videoFiles.map(file => ({
-        name: file.name,
-        url: `https://storage.googleapis.com/${bucket.name}/${file.name}`
-      }));
+      // Process each video file
+      for (const file of files) {
+        const [fileBuffer] = await file.download(); // Download file as buffer
+        const blob = new Blob([fileBuffer], { type: 'video/webm' }); // Convert buffer to blob
+        
+        // Generate the object URL for the blob
+        const objectUrl = URL.createObjectURL(blob);
   
-      res.status(200).json(videoFileNames);
+        // Append to the array
+        videoUrls.push(objectUrl);
+      }
+  
+      // Send the array of video URLs
+      res.status(200).json(videoUrls);
     } catch (error) {
       console.error('Error fetching video files:', error);
       res.status(500).send('Failed to retrieve video files.');
