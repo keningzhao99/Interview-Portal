@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
 import { Box, Button, Flex, Heading, Link, Card, CardHeader, CardBody } from "@chakra-ui/react";
+//import { VideoContext } from "./VideoContext";
 
-export const VideoRecorder = () => {
+export const VideoRecorder = ( { set } ) => {
   const [permission, setPermission] = useState(false);
   const mediaRecorder = useRef(null);
   const liveVideoFeed = useRef(null);
@@ -38,7 +39,7 @@ export const VideoRecorder = () => {
   };
 
   const startRecording = () => {
-    setRecordedVideo(null); // Clear the previously recorded video
+    setRecordedVideo(null);
     setRecordingStatus("recording");
     const media = new MediaRecorder(stream, { mimeType });
     mediaRecorder.current = media;
@@ -59,20 +60,23 @@ export const VideoRecorder = () => {
     mediaRecorder.current.stop();
     mediaRecorder.current.onstop = () => {
       const videoBlob = new Blob(videoChunks, { type: mimeType });
+      console.log("Printing video blob");
+      console.log(videoBlob);
       const videoUrl = URL.createObjectURL(videoBlob);
       setRecordedVideo(videoUrl);
+      set(videoBlob);
       setVideoChunks([]);
     };
   };
 
+  
   return (
     <Box p={4}>
-      <Heading as="h2" size="lg" mb={4}>Video Recorder</Heading>
-      <Flex gap={15}>
-
-        <Card>
+      <Heading as="h2" size="lg" mb={4} textAlign="center">Video Recorder</Heading>
+      <Flex gap={15} align="center" justify="center" flexWrap="wrap">
+        <Card width="400px" minHeight="450px">
           <CardHeader>
-            <Heading size="md">Recorder</Heading>
+            <Heading size="md" textAlign="center">Recorder</Heading>
           </CardHeader>
           <CardBody>
             <Flex className="video-controls" direction="column" align="center" justify="center">
@@ -87,37 +91,38 @@ export const VideoRecorder = () => {
                 </Button>
               ) : null}
               {recordingStatus === "recording" ? (
-                <Button onClick={stopRecording} colorScheme="red">
+                <Button onClick={stopRecording} colorScheme="red" mb={2}>
                   Stop Recording
                 </Button>
               ) : null}
             </Flex>
-            <Box className="live-player" border="1px" borderColor="gray.300" p={2} mt={4}>
-              <video ref={liveVideoFeed} autoPlay width="400" height="200"></video>
+            <Box className="live-player" height="275" border="1px" borderColor="gray.300" p={2} mt={4}>
+              <video ref={liveVideoFeed} autoPlay width="100%" height="200"></video>
             </Box>
           </CardBody>
         </Card>
 
-        <Card>
+        <Card width="400px" minHeight="450px">
           <CardHeader>
-            <Heading size="md">Recorded Video</Heading>
+            <Heading size="md" textAlign="center">Recorded Video</Heading>
           </CardHeader>
           <CardBody>
             {recordedVideo ? (
               <Box className="recorded-player">
-                <video src={recordedVideo} controls width="400" height="200"></video>
-                <Link href={recordedVideo} download color="purple.500" mt={2} display="block">
+                <video src={recordedVideo} controls width="100%" height="200"></video>
+                <Link href={recordedVideo} download color="purple.500" mt={2} display="block" textAlign="center">
                   Download Recording
                 </Link>
               </Box>
             ) : (
-              <Box>No video recorded yet.</Box>
+              <Box textAlign="center">No video recorded yet.</Box>
             )}
           </CardBody>
         </Card>
       </Flex>
     </Box>
   );
+
 };
 
 export default VideoRecorder;
