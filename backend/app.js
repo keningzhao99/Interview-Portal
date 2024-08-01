@@ -7,10 +7,10 @@ app.use(cors())
 const port=5001;
 
 // Import the router modules
-const uploadRouter = require("./upload");
+const videoRouter = require("./video");
 
 // Use the router modules
-app.use("/upload", uploadRouter);
+app.use("/video", videoRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

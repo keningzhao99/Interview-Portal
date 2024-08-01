@@ -16,14 +16,14 @@ export const SelfRecording = () => {
       const blob = await response.blob();
   
       // Create a File object from the Blob
-      const file = new File([blob], 'video.mp4', { type: blob.type });
+      const file = new File([blob], 'video.webm', { type: blob.type });
   
       // Create FormData and append the File
       const formData = new FormData();
       formData.append('file', file);
   
       // Send the POST request to the server
-      const result = await axios.post('http://localhost:5001/upload', formData, {
+      const result = await axios.post('http://localhost:5001/video/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

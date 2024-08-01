@@ -9,7 +9,7 @@ const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Upload current video to Firebase Storage
-router.post("/", upload.single('file'), async (req, res) => {
+router.post("/upload", upload.single('file'), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).send('No file uploaded.');
@@ -28,5 +28,26 @@ router.post("/", upload.single('file'), async (req, res) => {
         res.status(500).send('Failed to upload file.');
     }
 });
+
+router.get('/', async (req, res) => {
+    try {
+      // List all files in the 'files' directory
+      const [files] = await bucket.getFiles({ prefix: 'files/' });
+      
+      // Filter to include only video files based on their extension or mime type
+      const videoFiles = files.filter(file => file.name.endsWith('.webm'));
+  
+      // Create a list of video file names
+      const videoFileNames = videoFiles.map(file => ({
+        name: file.name,
+        url: `https://storage.googleapis.com/${bucket.name}/${file.name}`
+      }));
+  
+      res.status(200).json(videoFileNames);
+    } catch (error) {
+      console.error('Error fetching video files:', error);
+      res.status(500).send('Failed to retrieve video files.');
+    }
+  });
 
 module.exports = router;
