@@ -1,10 +1,11 @@
-import {initializeApp} from "firebase/app";
-import { getStorage } from 'firebase/storage';
+const { initializeApp } = require("firebase/app");
+const { getStorage } = require("firebase/storage");
 
-import serviceAccount from './permissions.json' with { type: 'json' };
+const serviceAccount = require('./permissions.json');
+
 
 
 const app = initializeApp(serviceAccount);
 const storage = getStorage(app);
 
-export { storage };
+module.exports = { storage };

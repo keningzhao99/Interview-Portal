@@ -6,6 +6,12 @@ app.use(cors())
 
 const port=5001;
 
+// Import the router modules
+const uploadRouter = require("./upload");
+
+// Use the router modules
+app.use("/upload", uploadRouter);
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
