@@ -1,8 +1,8 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef } from "react";
 import { Box, Button, Flex, Heading, Link, Card, CardHeader, CardBody } from "@chakra-ui/react";
-import { VideoContext } from "./VideoContext";
+//import { VideoContext } from "./VideoContext";
 
-export const VideoRecorder = () => {
+export const VideoRecorder = ( { recordedVideo, set, clear } ) => {
   const [permission, setPermission] = useState(false);
   const mediaRecorder = useRef(null);
   const liveVideoFeed = useRef(null);
@@ -10,7 +10,7 @@ export const VideoRecorder = () => {
   const [stream, setStream] = useState(null);
   const [videoChunks, setVideoChunks] = useState([]);
   //const [recordedVideo, setRecordedVideo] = useState(null);
-  const { recordedVideo, set, clear } = useContext(VideoContext);
+  //const { recordedVideo, set, clear } = useContext(VideoContext);
   const mimeType = "video/webm";
 
   const getCameraPermission = async () => {
