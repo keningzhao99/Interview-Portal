@@ -2,19 +2,18 @@ import { useState, useRef } from "react";
 import { Box, Button, Flex, Heading, Link, Card, CardHeader, CardBody } from "@chakra-ui/react";
 //import { VideoContext } from "./VideoContext";
 
-export const VideoRecorder = ( { recordedVideo, set, clear } ) => {
+export const VideoRecorder = ( { set } ) => {
   const [permission, setPermission] = useState(false);
   const mediaRecorder = useRef(null);
   const liveVideoFeed = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [stream, setStream] = useState(null);
   const [videoChunks, setVideoChunks] = useState([]);
-  //const [recordedVideo, setRecordedVideo] = useState(null);
-  //const { recordedVideo, set, clear } = useContext(VideoContext);
+  const [recordedVideo, setRecordedVideo] = useState(null);
   const mimeType = "video/webm";
 
   const getCameraPermission = async () => {
-    clear();
+    setRecordedVideo(null);
     if ("MediaRecorder" in window) {
       try {
         const videoConstraints = { audio: false, video: true };
@@ -40,7 +39,7 @@ export const VideoRecorder = ( { recordedVideo, set, clear } ) => {
   };
 
   const startRecording = () => {
-    clear(); // Clear the previously recorded video
+    setRecordedVideo(null);
     setRecordingStatus("recording");
     const media = new MediaRecorder(stream, { mimeType });
     mediaRecorder.current = media;
@@ -61,9 +60,11 @@ export const VideoRecorder = ( { recordedVideo, set, clear } ) => {
     mediaRecorder.current.stop();
     mediaRecorder.current.onstop = () => {
       const videoBlob = new Blob(videoChunks, { type: mimeType });
+      console.log("Printing video blob");
+      console.log(videoBlob);
       const videoUrl = URL.createObjectURL(videoBlob);
-      //setRecordedVideo(videoUrl);
-      set(videoUrl);
+      setRecordedVideo(videoUrl);
+      set(videoBlob);
       setVideoChunks([]);
     };
   };

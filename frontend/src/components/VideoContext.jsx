@@ -3,17 +3,17 @@ import { createContext, useState } from "react";
 const VideoContext = createContext();
 
 const VideoProvider = ({ children }) => {
-    const [recordedVideo, setRecordedVideo] = useState(null);
+    const [savedVideo, setSavedVideo] = useState(null);
 
 	const set = (userVideo) => {
-		setRecordedVideo(userVideo);
+		setSavedVideo(userVideo);
 	};
 
 	const clear = () => {
-		setRecordedVideo(null);
+		setSavedVideo(null);
 	};
 
-	return <VideoContext.Provider value={{ recordedVideo, set, clear }}>{children}</VideoContext.Provider>;
+	return <VideoContext.Provider value={{ savedVideo, set, clear }}>{children}</VideoContext.Provider>;
 };
 
 export { VideoContext, VideoProvider };

@@ -11,24 +11,26 @@ const upload = multer({ storage: multer.memoryStorage() });
 // Upload current video to Firebase Storage
 router.post("/upload", upload.single('file'), async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).send('No file uploaded.');
-        }
-
-        const file = req.file.buffer;
-        const fileName = `${uuidv4()}.webm`;
-        const vidRef = ref(storage, `files/${fileName}`);
-
-        // Upload file
-        await uploadBytes(vidRef, file);
-
-        res.status(200);
+      if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+      }
+  
+      console.log('File size:', req.file); // Log file size to check if it's empty
+  
+      const file = req.file.buffer;
+      const fileName = `${uuidv4()}.webm`;
+      const vidRef = ref(storage, `files/${fileName}`);
+  
+      // Upload file
+      await uploadBytes(vidRef, file);
+  
+      res.status(200).send('File uploaded successfully.');
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Failed to upload file.');
+      console.error('Error uploading file:', error);
+      res.status(500).send('Failed to upload file.');
     }
 });
-
+  
 router.get('/', async (req, res) => {
     try {
       // List all files in the 'files' directory
