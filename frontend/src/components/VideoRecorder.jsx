@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { Box, Button, Flex, Heading, Link, Card, CardHeader, CardBody } from "@chakra-ui/react";
+import { VideoContext } from "./VideoContext";
 
 export const VideoRecorder = () => {
   const [permission, setPermission] = useState(false);
@@ -8,11 +9,12 @@ export const VideoRecorder = () => {
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [stream, setStream] = useState(null);
   const [videoChunks, setVideoChunks] = useState([]);
-  const [recordedVideo, setRecordedVideo] = useState(null);
+  //const [recordedVideo, setRecordedVideo] = useState(null);
+  const { recordedVideo, set, clear } = useContext(VideoContext);
   const mimeType = "video/webm";
 
   const getCameraPermission = async () => {
-    setRecordedVideo(null);
+    clear();
     if ("MediaRecorder" in window) {
       try {
         const videoConstraints = { audio: false, video: true };
@@ -38,7 +40,7 @@ export const VideoRecorder = () => {
   };
 
   const startRecording = () => {
-    setRecordedVideo(null); // Clear the previously recorded video
+    clear(); // Clear the previously recorded video
     setRecordingStatus("recording");
     const media = new MediaRecorder(stream, { mimeType });
     mediaRecorder.current = media;
@@ -60,7 +62,8 @@ export const VideoRecorder = () => {
     mediaRecorder.current.onstop = () => {
       const videoBlob = new Blob(videoChunks, { type: mimeType });
       const videoUrl = URL.createObjectURL(videoBlob);
-      setRecordedVideo(videoUrl);
+      //setRecordedVideo(videoUrl);
+      set(videoUrl);
       setVideoChunks([]);
     };
   };
@@ -87,7 +90,7 @@ export const VideoRecorder = () => {
                 </Button>
               ) : null}
               {recordingStatus === "recording" ? (
-                <Button onClick={stopRecording} colorScheme="red">
+                <Button onClick={stopRecording} colorScheme="red" mb={2}>
                   Stop Recording
                 </Button>
               ) : null}

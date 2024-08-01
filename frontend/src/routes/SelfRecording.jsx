@@ -1,4 +1,5 @@
 import VideoRecorder from "../components/VideoRecorder";
+import { VideoProvider } from "../components/VideoContext";
 
 
 export const SelfRecording = () => {
@@ -6,8 +7,14 @@ export const SelfRecording = () => {
   return (
     <>
       <div>
-        <VideoRecorder />
-    </div>
+        <VideoProvider>
+          <VideoRecorder />
+        </VideoProvider>
+      </div>
+
+      <div>
+        
+      </div>
     </>
   );
 };
