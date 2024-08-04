@@ -21,7 +21,8 @@ export const Home = () => {
       <Flex direction="row" wrap="wrap" justify="center" gap={4}>
         {videos.map((video) => (
           <Box key={video.metadata.name} width="300px">
-            <Link to={`/feedback-detail/${video.metadata.name}`}>
+            <Link to={`/feedback-detail/${video.metadata.name}`}
+            state={{ videoURL: video.url, videoMetadata: video.metadata.customMetadata }}>
               <Card
                 width="100%"
                 borderWidth="1px"
