@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import VideoRecorder from "../components/VideoRecorder";
 import { VideoContext } from "../components/VideoContext";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 
 
 export const SelfRecording = () => {
@@ -43,13 +43,17 @@ export const SelfRecording = () => {
 
   return (
     <>
+    <Flex direction="column" gap={2} height="100vh">
       <Box>
         <VideoRecorder set={set} />
       </Box>
 
-      <Box>
-        <Button onClick={uploadVideo}>Submit Video</Button>
+      <Box alignSelf="flex-end" margin='10'>
+        <Button onClick={uploadVideo} alignSelf="flex-end">
+          Submit Video
+        </Button>
       </Box>
+    </Flex>
     </>
   );
 };

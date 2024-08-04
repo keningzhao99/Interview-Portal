@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { storage } = require("./firebase");
-const { ref, uploadBytes } = require("firebase/storage");
+const { ref, getMetadata, listAll, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
 const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 
@@ -20,9 +20,21 @@ router.post("/upload", upload.single('file'), async (req, res) => {
       const file = req.file.buffer;
       const fileName = `${uuidv4()}.webm`;
       const vidRef = ref(storage, `files/${fileName}`);
+
+      // Create metadata
+      const metadata = {
+        contentType: 'video/webm',
+        customMetadata: {
+          uploadedBy: 'Kening Zhao', // TODO: req.body contains uploadedby and description
+          description: 'Lesson 1',
+        }
+      };
+
+      // Upload file with metadata
+      await uploadBytesResumable(vidRef, file, metadata);
   
       // Upload file
-      await uploadBytes(vidRef, file);
+      //await uploadBytes(vidRef, file);
   
       res.status(200).send('File uploaded successfully.');
     } catch (error) {
@@ -32,24 +44,32 @@ router.post("/upload", upload.single('file'), async (req, res) => {
 });
   
 router.get('/', async (req, res) => {
-    try {
-      // List all files in the 'files' directory
-      const [files] = await bucket.getFiles({ prefix: 'files/' });
-      
-      // Filter to include only video files based on their extension or mime type
-      const videoFiles = files.filter(file => file.name.endsWith('.webm'));
-  
-      // Create a list of video file names
-      const videoFileNames = videoFiles.map(file => ({
-        name: file.name,
-        url: `https://storage.googleapis.com/${bucket.name}/${file.name}`
-      }));
-  
-      res.status(200).json(videoFileNames);
-    } catch (error) {
-      console.error('Error fetching video files:', error);
-      res.status(500).send('Failed to retrieve video files.');
+  const listRef = ref(storage, 'files/');
+
+  try {
+    // List all items in the directory
+    const listResult = await listAll(listRef);
+
+    // Array to store download URLs and metadata
+    const videoData = [];
+
+    // Process each item
+    for (const itemRef of listResult.items) {
+      const url = await getDownloadURL(itemRef); // Get download URL for each item
+      const metadata = await getMetadata(itemRef); // Get metadata for each item
+      console.log("debugging metadata");
+      console.log(url);
+      console.log(metadata);
+      videoData.push({ url, metadata }); // Store both URL and metadata
     }
-  });
+    
+    console.log(videoData);
+    // Return the array of video data
+    res.status(200).json(videoData);
+  } catch (error) {
+    console.error('Error listing files:', error);
+    res.status(500).send('Failed to list files.');
+  }
+});
 
 module.exports = router;

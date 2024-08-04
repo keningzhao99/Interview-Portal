@@ -13,6 +13,7 @@ import { UserProfile } from "./routes/UserProfile.jsx";
 import SelfRecording from "./routes/SelfRecording.jsx";
 import { EducationalResources } from "./routes/EduactionalResources.jsx";
 import { LessonDetail } from "./routes/LessonDetail.jsx";
+import { FeedbackDetail } from "./components/FeedbackDetail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "educational-resources/:lessonId",
         element: <LessonDetail />,
+      },
+      {
+        path: "feedback-detail/:videoId",
+        element: <FeedbackDetail />,
       },
     ],
   },
