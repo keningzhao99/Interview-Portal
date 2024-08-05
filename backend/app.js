@@ -1,10 +1,16 @@
-const express=require('express');
-const app=express();
-const cors = require("cors")
+const express = require("express");
+const app = express();
+const cors = require("cors");
 require("dotenv").config();
-app.use(cors())
+app.use(cors());
 
-const port=5001;
+const port = 5001;
+const firebase = require("firebase/app");
+
+// Required for side-effects
+require("firebase/firestore");
+require("firebase/auth");
+require("firebase/storage");
 
 // Import the router modules
 const videoRouter = require("./video");
