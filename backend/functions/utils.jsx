@@ -1,1 +1,0 @@
-import { getResumeByID } from "./api";
