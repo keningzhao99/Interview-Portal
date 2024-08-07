@@ -14,27 +14,31 @@ if (!apiKey || !baseId) {
 
 console.log("reached");
 
-// Fetching records of resumes
-base("Launch Resumes")
-  .select({
-    // Selecting the first 3 records in Grid view - DO NOT FILTER:
-    maxRecords: 3,
-    view: "Grid view - DO NOT FILTER",
-  })
-  .eachPage(
-    function page(records, fetchNextPage) {
-      // This function (`page`) will get called for each page of records.
-
-      records.forEach(function (record) {
-        console.log("Retrieved", record.get("Resume"));
+// Documentation through JSON (limit 3)
+const fetchRecords = async () => {
+  try {
+    const records = [];
+    await base("Launch Resumes")
+      .select({
+        maxRecords: 3,
+        view: "Grid view - DO NOT FILTER",
+      })
+      .eachPage((pageRecords, fetchNextPage) => {
+        records.push(
+          ...pageRecords.map((record) => ({
+            id: record.id,
+            createdTime: record._rawJson.createdTime,
+            fields: record.fields,
+          }))
+        );
+        fetchNextPage();
       });
 
-      fetchNextPage();
-    },
-    function done(err) {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    }
-  );
+    console.log(JSON.stringify({ records }, null, 2));
+  } catch (error) {
+    console.error("Error fetching records:", error);
+  }
+};
+
+// Call the function to fetch and display records
+fetchRecords();
