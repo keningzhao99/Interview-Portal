@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import "../styles/Login.css";
 import logo from "../assets/forge-stacked-primary.png";
+import firebase from "../../firebase";
 
 export const Login = () => {
   const [adminLogin, setAdminLogin] = useState(false);
