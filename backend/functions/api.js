@@ -40,19 +40,19 @@ const fetchRecords = async () => {
   }
 };
 
-const fetchAirtableData = async () => {
-  try {
-    const response = await axios.get(
-      "https://api.airtable.com/v0/YOUR_BASE_ID/Table%20Name",
-      {
-        headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` },
-      }
-    );
-    console.log(response.data.records);
-  } catch (error) {
-    console.error(error);
-  }
-};
+// const fetchAirtableData = async () => {
+//   try {
+//     const response = await fetch(
+//       "https://api.airtable.com/v0/${baseId}/Launch Resumes",
+//       {
+//         headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` },
+//       }
+//     );
+//     console.log(response.data.records);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 const getResumeByID = async (string) => {
   const data = await fetch(
@@ -76,4 +76,4 @@ module.exports = { fetchRecords, getResumeByID };
 // Call the function to fetch and display records
 fetchRecords();
 
-fetchAirtableData();
+// fetchAirtableData();
