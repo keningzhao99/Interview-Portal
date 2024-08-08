@@ -40,5 +40,8 @@ const fetchRecords = async () => {
   }
 };
 
+// Export the fetchRecords function
+module.exports = { fetchRecords };
+
 // Call the function to fetch and display records
 fetchRecords();
