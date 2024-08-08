@@ -5,13 +5,10 @@ const express = require('express');
 const router = express.Router();
 
 // Define your API routes here
-router.get('/airtable/find', (req, res) => {
+router.post('/airtable/find', (req, res) => {
   res.send('API response');
 });
 
-router.get('/resumes/student', (req, res) => {
-  res.send('API response');
-});
 
 const Airtable = require("airtable");
 const apiKey = process.env.AIRTABLE_API_KEY;

@@ -90,7 +90,7 @@ export const Login = () => {
       }
 
       if (id !== "") {
-        navigate("/functions/api/resumes/student/" + id);
+        navigate("/resumes/student/" + id);
       } else {
         setInvalid(true);
       }
