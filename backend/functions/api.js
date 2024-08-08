@@ -20,7 +20,7 @@ const fetchRecords = async () => {
     const records = [];
     await base("Launch Resumes")
       .select({
-        maxRecords: 3,
+        maxRecords: 1,
         view: "Grid view - DO NOT FILTER",
       })
       .eachPage((pageRecords, fetchNextPage) => {
@@ -40,6 +40,20 @@ const fetchRecords = async () => {
   }
 };
 
+const fetchAirtableData = async () => {
+  try {
+    const response = await axios.get(
+      "https://api.airtable.com/v0/YOUR_BASE_ID/Table%20Name",
+      {
+        headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` },
+      }
+    );
+    console.log(response.data.records);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const getResumeByID = async (string) => {
   const data = await fetch(
     `https://api.airtable.com/v0/${baseId}/Launch Resumes/${id}`,
@@ -50,8 +64,10 @@ const getResumeByID = async (string) => {
     }
   );
   const record = await data.json();
-  const resume = cleanResume(record);
-  return resume;
+  // const resume = cleanResume(record);
+  // return resume;
+  // console.log(record); // Log the record directly
+  return record;
 };
 
 // Export the fetchRecords function
@@ -59,3 +75,5 @@ module.exports = { fetchRecords, getResumeByID };
 
 // Call the function to fetch and display records
 fetchRecords();
+
+fetchAirtableData();

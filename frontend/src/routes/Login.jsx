@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -13,26 +13,102 @@ import {
   Image,
   FormHelperText,
   Checkbox,
+  useToast,
 } from "@chakra-ui/react";
 import "../styles/Login.css";
 import logo from "../assets/forge-stacked-primary.png";
+import { useNavigate, useLocation } from "react-router-dom";
+// import { useAdminContext } from "../components/AdminAuthentication";
 
 export const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [loading, setLoading] = useState(false);
+  const [invalid, setInvalid] = useState(false);
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+  });
   const [adminLogin, setAdminLogin] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberMe, setRememberMe] = useState(
+    localStorage.getItem("memberMe") === "true"
+  );
+  // const { authenticated, setAuthenticated } = useAdminContext();
+  const [nextPage, setNextPage] = useState("/resumes/admin");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
+  const toast = useToast();
 
-  const toggleLoginType = () => {
-    setAdminLogin(!adminLogin);
+  // useEffect(() => {
+  //   const query = new URLSearchParams(location.search);
+  //   if (query.get("admin") === "true") {
+  //     setAdminLogin(true);
+  //   }
+  //   if (query.get("next")) {
+  //     setNextPage("/admin/" + query.get("next"));
+  //   }
+  //   if (adminLogin && authenticated) {
+  //     navigate(nextPage);
+  //   }
+  // }, [authenticated, navigate, adminLogin, nextPage, location.search]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
   const handleRememberMeChange = (e) => {
     const isChecked = e.target.checked;
     setRememberMe(isChecked);
-    // localStorage.setItem("memberMe", isChecked.toString());
+    localStorage.setItem("memberMe", isChecked.toString());
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    const internalPhone = formValues.phone
+      .replace(/\(/g, "")
+      .replace(/\)/g, "")
+      .replace(/-/g, "")
+      .replace(/ /g, "")
+      .replace("+1", "");
+
+    try {
+      const id = await api.post("/airtable/find", {
+        name: formValues.name,
+        phone: internalPhone,
+        base: "Launch",
+      });
+
+      if (rememberMe) {
+        localStorage.setItem("launchName", formValues.name);
+        localStorage.setItem("launchPhone", formValues.phone);
+      }
+
+      if (id !== "") {
+        navigate("/resumes/student/" + id);
+      } else {
+        setInvalid(true);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast({
+        title: "Error",
+        description: "Login failed. Please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleLoginType = () => {
+    setAdminLogin(!adminLogin);
   };
 
   return (
@@ -45,7 +121,7 @@ export const Login = () => {
               {adminLogin ? "Admin Login" : "Student Login"}
             </Heading>
           </VStack>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleFormSubmit}>
             {adminLogin ? (
               <>
                 <FormControl className="login-form">
@@ -53,7 +129,10 @@ export const Login = () => {
                   <Input
                     className="login-input"
                     type="email"
+                    name="email"
                     placeholder="Enter your email"
+                    value={formValues.email}
+                    onChange={handleChange}
                   />
                 </FormControl>
                 <FormControl mt={4} className="login-form">
@@ -61,7 +140,10 @@ export const Login = () => {
                   <Input
                     className="login-input"
                     type="password"
+                    name="password"
                     placeholder="Enter your password"
+                    value={formValues.password}
+                    onChange={handleChange}
                   />
                 </FormControl>
               </>
@@ -71,16 +153,22 @@ export const Login = () => {
                   <FormLabel className="login-label">Full Name</FormLabel>
                   <Input
                     className="login-input"
-                    type="name"
+                    type="text"
+                    name="name"
                     placeholder="Enter your full name"
+                    value={formValues.name}
+                    onChange={handleChange}
                   />
                 </FormControl>
                 <FormControl mt={4} className="login-form">
                   <FormLabel className="login-label">Phone Number</FormLabel>
                   <Input
                     className="login-input"
-                    type="telephone"
+                    type="tel"
+                    name="phone"
                     placeholder="Enter your phone number"
+                    value={formValues.phone}
+                    onChange={handleChange}
                   />
                 </FormControl>
               </>
@@ -100,6 +188,7 @@ export const Login = () => {
                 type="submit"
                 colorScheme="purple"
                 className="sign-in-button"
+                isLoading={loading}
               >
                 LOGIN
               </Button>
@@ -126,4 +215,5 @@ export const Login = () => {
     </div>
   );
 };
+
 export default Login;
