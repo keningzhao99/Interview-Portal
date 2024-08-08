@@ -18,6 +18,7 @@ import {
 import "../styles/Login.css";
 import logo from "../assets/forge-stacked-primary.png";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from 'axios';
 // import { useAdminContext } from "../components/AdminAuthentication";
 
 export const Login = () => {
@@ -77,7 +78,7 @@ export const Login = () => {
       .replace("+1", "");
 
     try {
-      const id = await api.post("/airtable/find", {
+      const id = await axios.post("/airtable/find", {
         name: formValues.name,
         phone: internalPhone,
         base: "Launch",
