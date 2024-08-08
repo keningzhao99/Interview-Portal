@@ -10,7 +10,7 @@ const port = process.env.PORT || 5001; // Use environment variable for port, def
 
 // Import the router modules
 const videoRouter = require("./video");
-const { fetchallData, getResumeByID } = require("./functions/api");
+const { fetchRecords, getResumeById } = require("./functions/api");
 
 // Use the router modules
 app.use("/video", videoRouter);

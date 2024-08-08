@@ -40,8 +40,22 @@ const fetchRecords = async () => {
   }
 };
 
+const getResumeByID = async (string) => {
+  const data = await fetch(
+    `https://api.airtable.com/v0/${baseId}/Launch Resumes/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+      },
+    }
+  );
+  const record = await data.json();
+  const resume = cleanResume(record);
+  return resume;
+};
+
 // Export the fetchRecords function
-module.exports = { fetchRecords };
+module.exports = { fetchRecords, getResumeByID };
 
 // Call the function to fetch and display records
 fetchRecords();
