@@ -78,7 +78,7 @@ export const Login = () => {
       .replace("+1", "");
 
     try {
-      const id = await axios.post("/airtable/find", {
+      const id = await axios.post("/functions/api/airtable/find", {
         name: formValues.name,
         phone: internalPhone,
         base: "Launch",
@@ -90,7 +90,7 @@ export const Login = () => {
       }
 
       if (id !== "") {
-        navigate("/resumes/student/" + id);
+        navigate("/functions/api/resumes/student/" + id);
       } else {
         setInvalid(true);
       }
