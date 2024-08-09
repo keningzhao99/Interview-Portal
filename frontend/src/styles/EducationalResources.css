@@ -1,4 +1,3 @@
-/* EducationalResources.css */
 .banner {
     position: relative;
     width: 100%;
@@ -19,9 +18,9 @@
   }
   
   .banner-content h2 {
-    color: #2D3748; /* Darker text for visibility */
+    color: #000000; /* Darker text for visibility */
     font-size: 2.5rem;
+    font-weight: bold; /* Make the text bold */
     margin: 0;
     filter: none; /* Ensures the text is not blurred */
   }
-  

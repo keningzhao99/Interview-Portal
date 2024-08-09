@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, VStack, Flex, Progress, Text } from '@chakra-ui/react';
+import { Box, Heading, VStack, Flex, Progress, Text, Button } from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
 import { lessons } from '../components/lessonData';
-import '../styles/EducationalResources.css';  // Import the CSS file
+import '../styles/EducationalResources.css';
+
+const getInitialProgress = () => {
+  const savedProgress = localStorage.getItem('lessonProgress');
+  return savedProgress ? JSON.parse(savedProgress) : lessons.map(lesson => lesson.tasks.map(() => false));
+};
 
 export const EducationalResources = () => {
   const [completedLessons, setCompletedLessons] = useState(getInitialProgress);
@@ -41,70 +46,67 @@ export const EducationalResources = () => {
 
   const isLessonCompleted = (lesson) => lesson && lesson.every(task => task);
 
+  // Add this function to clear local storage
+  const clearProgress = () => {
+    localStorage.removeItem('lessonProgress');
+    setCompletedLessons(lessons.map(lesson => lesson.tasks.map(() => false)));
+  };
+
   return (
     <Box>
-      {/* Banner Section */}
-      <Box className="banner">
-        <Box className="banner-content">
-          <Heading as="h2">Interview Preparation</Heading>
-        </Box>
-      </Box>
-
-      <Box p={5}>
-        <Flex direction="column" align="center" justify="center" w="100%">
-          <VStack spacing={4} w="80%">
-            {lessons.map((lesson, index) => {
-              const lessonTasks = completedLessons[index] || [];
-              const progress = calculateProgress(lessonTasks);
-              const isLocked = !completedLessons.slice(0, index).every(isLessonCompleted);
-              return (
-                <Box
-                  key={lesson.id}
-                  p={4}
-                  borderWidth={1}
-                  borderRadius="md"
-                  backgroundColor={
-                    isLessonCompleted(lessonTasks)
-                      ? 'green.50'
-                      : isLocked
-                        ? 'gray.200'
-                        : 'white'
+      <div className="banner">
+        <div className="banner-content">
+          <h2>Interview Preparation</h2>
+        </div>
+      </div>
+      <Flex direction="column" align="center" justify="center" w="100%">
+        <VStack spacing={4} w="80%">
+          {lessons.map((lesson, index) => {
+            const lessonTasks = completedLessons[index] || [];
+            const progress = calculateProgress(lessonTasks);
+            const isLocked = !completedLessons.slice(0, index).every(isLessonCompleted);
+            return (
+              <Box
+                key={lesson.id}
+                p={4}
+                borderWidth={1}
+                borderRadius="md"
+                backgroundColor={
+                  isLessonCompleted(lessonTasks)
+                    ? 'green.50'
+                    : isLocked
+                      ? 'gray.200'
+                      : 'white'
+                }
+                w="100%"
+                onClick={() => {
+                  if (!isLocked) {
+                    navigate(`/educational-resources/${lesson.id}`, {
+                      state: { completedTasks: lessonTasks },
+                    });
                   }
-                  w="100%"
-                  onClick={() => {
-                    if (!isLocked) {
-                      navigate(`/educational-resources/${lesson.id}`, {
-                        state: { completedTasks: lessonTasks },
-                      });
-                    }
-                  }}
-                  cursor={!isLocked ? 'pointer' : 'not-allowed'}
-                >
-                  <Flex direction="row" justify="space-between" align="center">
-                    <VStack spacing={4} align="flex-start">
-                      <Heading as="h2" size="md">{lesson.title}</Heading>
-                      <Text>{lesson.description}</Text>
-                    </VStack>
-                    <Box width="20%">
-                      {progress > 0 && progress < 100 && (
-                        <Progress value={progress} size="sm" colorScheme="yellow" width="100%" />
-                      )}
-                      {progress === 100 && (
-                        <Text color="green.500" textAlign="right">Completed</Text>
-                      )}
-                    </Box>
-                  </Flex>
-                </Box>
-              );
-            })}
-          </VStack>
-        </Flex>
-      </Box>
+                }}
+                cursor={!isLocked ? 'pointer' : 'not-allowed'}
+              >
+                <Flex direction="row" justify="space-between" align="center">
+                  <VStack spacing={4} align="flex-start">
+                    <Heading as="h2" size="md">{lesson.title}</Heading>
+                    <Text>{lesson.description}</Text>
+                  </VStack>
+                  <Box width="20%">
+                    {progress > 0 && progress < 100 && (
+                      <Progress value={progress} size="sm" colorScheme="yellow" width="100%" />
+                    )}
+                    {progress === 100 && (
+                      <Text color="green.500" textAlign="right">Completed</Text>
+                    )}
+                  </Box>
+                </Flex>
+              </Box>
+            );
+          })}
+        </VStack>
+      </Flex>
     </Box>
   );
-};
-
-const getInitialProgress = () => {
-  const savedProgress = localStorage.getItem('lessonProgress');
-  return savedProgress ? JSON.parse(savedProgress) : lessons.map(lesson => lesson.tasks.map(() => false));
 };

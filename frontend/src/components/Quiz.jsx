@@ -81,6 +81,38 @@ const quizData = {
       answer: "Highlight relevant skills",
     },
   ],
+  4: [
+    {
+      type: "multiple-choice",
+      question: "Why is professionalism important during an interview?",
+      options: ["It shows respect", "It makes you seem serious", "Both A and B", "None of the above"],
+      answer: "Both A and B",
+    },
+    {
+      type: "multiple-choice",
+      question: "When should you schedule an interview?",
+      options: ["During business hours", "Whenever you feel like it", "Early in the morning", "Late at night"],
+      answer: "During business hours",
+    },
+    {
+      type: "multiple-choice",
+      question: "What is a good practice when writing a thank you email?",
+      options: ["Keep it short and sweet", "Include your life story", "Ask for a raise", "None of the above"],
+      answer: "Keep it short and sweet",
+    },
+    {
+      type: "multiple-choice",
+      question: "What should you avoid when addressing someone in an interview?",
+      options: ["Using slang or emojis", "Using complete sentences", "Addressing them by their title", "Being respectful"],
+      answer: "Using slang or emojis",
+    },
+    {
+      type: "multiple-choice",
+      question: "Why are thank you emails important?",
+      options: ["They help you stay connected", "They show gratitude", "Both A and B", "None of the above"],
+      answer: "Both A and B",
+    },
+  ],
 };
 
 const Quiz = ({ lessonId, onComplete }) => {
