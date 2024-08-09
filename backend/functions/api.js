@@ -1,14 +1,8 @@
 const dotenv = require("dotenv");
 dotenv.config(); // This loads environment variables from the .env file
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-
-// Define your API routes here
-router.post('/airtable/find', (req, res) => {
-  res.send('API response');
-});
-
 
 const Airtable = require("airtable");
 const apiKey = process.env.AIRTABLE_API_KEY;
@@ -21,16 +15,14 @@ if (!apiKey || !baseId) {
   process.exit(1);
 }
 
-console.log("reached");
-
-// Documentation through JSON (limit 3)
+// Documentation through JSON
 const fetchRecords = async () => {
   try {
     const records = [];
     await base("Launch Resumes")
       .select({
-        maxRecords: 1,
-        view: "Grid view - DO NOT FILTER",
+        view: "Grid view - DO NOT FILTER", // No maxRecords specified
+        // Comment out maxRecords to retrieve all records
       })
       .eachPage((pageRecords, fetchNextPage) => {
         records.push(
@@ -43,47 +35,56 @@ const fetchRecords = async () => {
         fetchNextPage();
       });
 
-    console.log(JSON.stringify({ records }, null, 2));
+    // Return the records array
+    return records;
   } catch (error) {
     console.error("Error fetching records:", error);
+    return []; // Return an empty array in case of an error
   }
 };
 
-// const fetchAirtableData = async () => {
-//   try {
-//     const response = await fetch(
-//       "https://api.airtable.com/v0/${baseId}/Launch Resumes",
-//       {
-//         headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` },
-//       }
-//     );
-//     console.log(response.data.records);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+// Finding user by checking their full name & phone number
+router.post("/find", async (req, res) => {
+  const { name, phone } = req.body; // Adjusted to match login form field names
 
-const getResumeByID = async (string) => {
-  const data = await fetch(
-    `https://api.airtable.com/v0/${baseId}/Launch Resumes/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-      },
+  try {
+    // Fetch records from Airtable
+    const records = await fetchRecords();
+
+    // Check if records is defined and is an array
+    if (!Array.isArray(records)) {
+      console.error("Expected an array of records but got:", records);
+      return res
+        .status(500)
+        .json({ success: false, message: "Internal Server Error" });
     }
-  );
-  const record = await data.json();
-  // const resume = cleanResume(record);
-  // return resume;
-  // console.log(record); // Log the record directly
-  return record;
-};
 
-// Export the fetchRecords function
-module.exports = { fetchRecords, getResumeByID };
+    // Find the record that matches the username and password
+    const matchingRecord = records.find((record) => {
+      const phoneField = record.fields["Phone"];
+      const fullNameField = record.fields["Student Name"];
 
-// Call the function to fetch and display records
-fetchRecords();
+      // Extract and trim values from arrays
+      const phoneValue = Array.isArray(phoneField) ? phoneField[0].trim() : "";
+      const fullNameValue = Array.isArray(fullNameField)
+        ? fullNameField[0].trim()
+        : "";
 
-// fetchAirtableData();
+      // Check if values match
+      return phoneValue === phone && fullNameValue === name;
+    });
+
+    if (matchingRecord) {
+      // Successful login
+      res.status(200).json({ success: true });
+    } else {
+      // No matching record found
+      res.status(401).json({ success: false, message: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error("Error verifying login:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+});
+
 module.exports = router;

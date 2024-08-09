@@ -14,7 +14,7 @@ const apiRouter = require("./functions/api");
 
 // Use the router modules
 app.use("/video", videoRouter);
-app.use("/functions/api", apiRouter);
+app.use("/api", apiRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
