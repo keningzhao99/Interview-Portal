@@ -1,7 +1,7 @@
-const { getAuth } = require("firebase/auth");
-const { getFirestore } = require("firebase/firestore");
 const { initializeApp } = require("firebase/app");
 const { getStorage } = require("firebase/storage");
+require("firebase/firestore");
+require("firebase/auth");
 
 const serviceAccount = require("./permissions.json");
 
@@ -15,12 +15,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const firestore = getFirestore(app);
 const storage = getStorage(app);
 
-module.exports = {
-  auth,
-  firestore,
-  storage
-};
+module.exports = { storage };

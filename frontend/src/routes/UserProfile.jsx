@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -16,19 +16,49 @@ import {
   Card,
   CardBody,
 } from "@chakra-ui/react";
-
+import axios from "axios"; // Use axios for fetching data
 import "../styles/UserProfile.css";
 
 export const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState(null);
+
+  useEffect(() => {
+    // Fetch profile data on component mount
+    const fetchProfileData = async () => {
+      try {
+        const response = await axios.get("/api/profile"); // Update with your actual API endpoint
+        setProfileData(response.data);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
   const handleUpdateClick = () => {
+    // Update profile data logic
     setIsEditing(false);
   };
+
+  if (!profileData) {
+    return <Text>Loading...</Text>; // Show loading state
+  }
+
+  // Use default values to prevent undefined errors
+  const {
+    "Student Name": studentName = "N/A",
+    Email = [""],
+    Pronouns = "N/A",
+    Track = ["N/A"],
+    Phone = [""],
+    headshotURL = "src/assets/profile-placeholder.jpg",
+  } = profileData;
 
   return (
     <Box className="profile-container">
@@ -42,14 +72,14 @@ export const UserProfile = () => {
             <Image
               boxSize="250px"
               borderRadius="full"
-              src="src/assets/profile-placeholder.jpg"
+              src={headshotURL}
               alt="Profile Picture"
             />
             <Stack spacing={2} ml={3}>
-              <Heading size="md">Name</Heading>
-              <Text>Role: </Text>
-              <Text>Track: </Text>
-              <Text>Pronouns: </Text>
+              <Heading size="md">{studentName}</Heading>
+              <Text>Role: {profileData.Role || "N/A"}</Text>
+              <Text>Track: {Track[0]}</Text>
+              <Text>Pronouns: {Pronouns}</Text>
             </Stack>
           </Flex>
         </CardBody>
@@ -76,6 +106,7 @@ export const UserProfile = () => {
                   <Input
                     className="form-input"
                     type="text"
+                    value={studentName}
                     placeholder="Enter your full name"
                     isReadOnly={!isEditing}
                   />
@@ -85,6 +116,7 @@ export const UserProfile = () => {
                   <Input
                     className="form-input"
                     type="email"
+                    value={Email[0] || ""}
                     placeholder="Enter your email"
                     isReadOnly={!isEditing}
                   />
@@ -93,6 +125,7 @@ export const UserProfile = () => {
                   <FormLabel>Pronouns</FormLabel>
                   <Select
                     className="form-input"
+                    value={Pronouns}
                     placeholder="Select your pronouns"
                     isDisabled={!isEditing}
                   >
@@ -105,6 +138,7 @@ export const UserProfile = () => {
                   <FormLabel>Track</FormLabel>
                   <Select
                     className="form-input"
+                    value={Track[0]}
                     placeholder="Select your track"
                     isDisabled={!isEditing}
                   >
@@ -120,6 +154,7 @@ export const UserProfile = () => {
                   <Input
                     className="form-input"
                     type="tel"
+                    value={Phone[0] || ""}
                     placeholder="Enter your phone number"
                     isReadOnly={!isEditing}
                   />
@@ -139,6 +174,7 @@ export const UserProfile = () => {
         </CardBody>
       </Card>
 
+      {/* Other sections */}
       <Card className="uploaded-videos-profile" mt={6}>
         <CardBody>
           <Heading className="profile-heading" size="md" mb={4}>
