@@ -23,7 +23,7 @@ export const lessons = [
         id: 2, 
         title: 'Feedback', 
         description: 'Review two students recordings and leave feedback', 
-        action: { type: 'redirect', path: '/feedback' } 
+        action: { type: 'redirect', path: '/home' } 
       },
       { 
         id: 3, 
@@ -57,7 +57,7 @@ export const lessons = [
         id: 2, 
         title: 'Feedback', 
         description: 'Review two students recordings and leave feedback', 
-        action: { type: 'redirect', path: '/feedback' } 
+        action: { type: 'redirect', path: '/home' } 
       },
       { 
         id: 3, 
@@ -91,7 +91,7 @@ export const lessons = [
         id: 2, 
         title: 'Feedback', 
         description: 'Review two students recordings and leave feedback', 
-        action: { type: 'redirect', path: '/feedback' } 
+        action: { type: 'redirect', path: '/home' } 
       },
       { 
         id: 3, 
@@ -125,7 +125,7 @@ export const lessons = [
         id: 2, 
         title: 'Feedback', 
         description: 'Review two students recordings and leave feedback', 
-        action: { type: 'redirect', path: '/feedback' } 
+        action: { type: 'redirect', path: '/home' } 
       },
       { 
         id: 3, 
@@ -159,7 +159,7 @@ export const lessons = [
         id: 2, 
         title: 'Feedback', 
         description: 'Review two students recordings and leave feedback', 
-        action: { type: 'redirect', path: '/feedback' } 
+        action: { type: 'redirect', path: '/home' } 
       },
       { 
         id: 3, 
