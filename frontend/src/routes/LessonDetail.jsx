@@ -3,6 +3,7 @@ import { Box, Heading, VStack, Button, Text, Flex, Checkbox, Collapse } from '@c
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { lessons } from '../components/lessonData';
 import Quiz from '../components/Quiz';
+import '../styles/LessonDetail.css';
 
 export const LessonDetail = () => {
   const { lessonId } = useParams();
@@ -75,10 +76,12 @@ export const LessonDetail = () => {
 
   return (
     <Box>
+      <div className="banner">
+        <div className="banner-content">
+          <h1>{lessons[lessonId].title}</h1>
+        </div>
+      </div>
       <Box p={5}>
-        <Heading as="h1" size="xl" mb={20} textAlign="center" color="purple.600">
-          {lessons[lessonId].title}
-        </Heading>
         <Button colorScheme="purple" mb={5} onClick={() => navigate('/educational-resources')}>
           Back to Educational Resources
         </Button>
@@ -142,16 +145,13 @@ export const LessonDetail = () => {
               {showQuiz && task.action.type === 'quiz' && (
                 <Collapse in={showQuiz} animateOpacity>
                   <Box mt={4} w="100%" p={4} borderWidth={1} borderRadius="md">
-                    <Quiz onComplete={(success) => setQuizCompleted(success)} />
+                    <Quiz lessonId={lessonId} onComplete={(success) => setQuizCompleted(success)} />
                   </Box>
                 </Collapse>
               )}
             </Flex>
           ))}
         </VStack>
-        <Button colorScheme="red" mt={5} onClick={revertProgress}>
-          Revert Progress
-        </Button>
       </Box>
     </Box>
   );
