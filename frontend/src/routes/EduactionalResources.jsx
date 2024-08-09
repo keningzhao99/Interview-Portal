@@ -3,11 +3,7 @@ import { Box, Heading, VStack, Flex, Progress, Text } from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
 import { lessons } from '../components/lessonData';
-
-const getInitialProgress = () => {
-  const savedProgress = localStorage.getItem('lessonProgress');
-  return savedProgress ? JSON.parse(savedProgress) : lessons.map(lesson => lesson.tasks.map(() => false));
-};
+import '../styles/EducationalResources.css';  // Import the CSS file
 
 export const EducationalResources = () => {
   const [completedLessons, setCompletedLessons] = useState(getInitialProgress);
@@ -47,8 +43,14 @@ export const EducationalResources = () => {
 
   return (
     <Box>
+      {/* Banner Section */}
+      <Box className="banner">
+        <Box className="banner-content">
+          <Heading as="h2">Interview Preparation</Heading>
+        </Box>
+      </Box>
+
       <Box p={5}>
-        <Heading as="h2" size="xl" mb={5} textAlign="center">Interview Preparation</Heading>
         <Flex direction="column" align="center" justify="center" w="100%">
           <VStack spacing={4} w="80%">
             {lessons.map((lesson, index) => {
@@ -100,4 +102,9 @@ export const EducationalResources = () => {
       </Box>
     </Box>
   );
+};
+
+const getInitialProgress = () => {
+  const savedProgress = localStorage.getItem('lessonProgress');
+  return savedProgress ? JSON.parse(savedProgress) : lessons.map(lesson => lesson.tasks.map(() => false));
 };

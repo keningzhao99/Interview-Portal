@@ -1,0 +1,26 @@
+/* LessonDetail.css */
+.banner {
+    position: relative;
+    width: 100%;
+    height: 150px; /* Adjust the height as needed */
+    background-image: url('../assets/forge-stacked-primary.png');
+    background-size: cover; /* Ensures the image covers the entire banner */
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .banner-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+  }
+  
+  .banner-content h1 {
+    color: #000000; /* Match the purple color used in Chakra UI */
+    font-size: 2.5rem;
+    margin: 0;
+  }
+  
